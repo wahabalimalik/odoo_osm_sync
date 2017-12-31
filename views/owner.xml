@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 
+    	Owner Form 
+    -->
+      	<record model="ir.ui.view" id="odoo_osm_sync owner" >
+	        <field name="name">odoo_osm_sync owner</field>
+	        <field name="model">res.partner</field>
+	        <field name="inherit_id" ref="base.view_partner_form"/>
+	        <field name="arch" type="xml">
+	          	<data>
+	            	<xpath 
+	            		expr="//div[@name='button_box']" 
+	            		position="before">
+
+	              		<div 
+	              			class="run_button" 
+	              			style="padding-bottom: 20px;">
+
+	                		<button 
+	                			name="create_owner"  
+	                			class="btn-primary" 
+	                			string="Run" 
+	                			type="object"
+	                		/>
+	              		</div>
+            		</xpath>
+	            	<xpath 
+	            		expr="//field[@name='website']" 
+	            		position="before">
+
+						<field name="bus_ids"/>
+						<field name="citizen"/>
+						<field name="vrn"/>
+						<field name="assess"/>
+						<field name="branch"/>
+						<field name="tax"/>
+						<field name="tin"/>
+						<field name="efd"/>
+	            	</xpath>
+		            <xpath 
+		            	expr="//field[@name='function']" 
+		            	position="before">
+
+						<field name="valued"/>
+						<field name="area_own"/>
+						<field name="building"/>
+						<field name="property_valuation"/>
+						<field name="property_tax"/>
+						<field name="killbill_id" />
+		            </xpath>
+		            <xpath 
+		            	expr="//notebook/page" 
+		            	position="before">
+
+		                <page 
+		                	string="Tenant Info" 
+		                	autofocus="autofocus">
+
+		                  	<field name="tenants_id">
+		                    	<tree 
+		                    		string="Tenant Lines" 
+		                    		editable="bottom">
+		                    		
+			                      	<field name="tenant_name"/>
+			                      	<field name="citizen"/>
+			                      	<field name="rent"/>
+			                      	<field name="tax"/>
+		                    	</tree>
+		                  	</field>
+		                </page>
+		            </xpath>
+	          	</data>
+	        </field>
+      	</record>
+
+    <!-- 
+    	Menuitem 
+    -->
+	    <menuitem 
+			name="Owner" 
+			id="odoo_osm_sync.owner" 
+			parent="odoo_osm_sync.menu_1"
+			sequence='2'
+			action="base.action_partner_form"
+	    />
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  	<!-- Dashboard -->
+	    <template 
+	    	id="assets_backend" 
+	    	name="Odoo Overpass BE" 
+	    	inherit_id="web.assets_backend">
+
+	        <xpath expr="." position="inside">
+
+	          <link 
+	          	href="/odoo_osm_sync/static/src/css/dashboard.css" 
+	          	rel="stylesheet" 
+	          	type="text/css"
+	          />
+
+	          <script 
+	          	type="text/javascript" 
+	          	src="/odoo_osm_sync/static/src/js/dashboard.js"
+	          />
+
+	        </xpath>
+	    </template>
+
+	<!-- Action -->
+    	<record 
+    		model="ir.actions.client" 
+    		id="odoo_osm_sync.action_dashboard"
+    		>
+        		<field name="name">Dashboard</field>
+        		<field name="tag">odoo_osm_sync.dashboard</field>
+    	</record>
+
+    <!-- Menuitem -->
+    	<menuitem 
+      		name="Dashboard" 
+      		id="odoo_osm_sync.Dashboard" 
+      		parent="odoo_osm_sync.menu_root"
+      		sequence='0'
+      		action="odoo_osm_sync.action_dashboard"
+    	/>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- 
+		Main Menuitem 
+	-->
+		<menuitem 
+			name="OSM" 
+			id="odoo_osm_sync.menu_root"
+		/>
+
+	<!-- 
+		Second Menu 
+	-->
+        <menuitem 
+          	name="Overpass" 
+          	id="odoo_osm_sync.menu_1"
+      		sequence='1'
+          	parent="odoo_osm_sync.menu_root"
+        />
+</odoo>

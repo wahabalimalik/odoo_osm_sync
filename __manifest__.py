@@ -16,6 +16,7 @@ Adding:
 -------
         i)Owners in Building.
         ii)Tenant in Builing.
+        iii)Property detail in Building.
     """,
 
     'author': "Wahab Ali Malik",
@@ -27,7 +28,12 @@ Adding:
     'depends': ['base'],
     'data': [
         # 'security/ir.model.access.csv',
-        'views/views.xml',
+        'views/menuitems.xml',
+        'views/dashboard.xml',
+        'views/building_read_info.xml',
+        'views/owner.xml',
+        'views/tenant.xml',
+        'views/building.xml',
     ],
     'qweb': [
         'static/src/xml/dashboard.xml',

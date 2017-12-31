@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Read building Information -->
+    <record model="ir.ui.view" id="odoo_osm_sync.build_data">
+      <field name="name">odoo_osm_sync build_data</field>
+      <field name="model">building.read</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button  
+              class="btn-primary" 
+              name="button_open_wizard_own" 
+              type="object" 
+              string="Create Owner" 
+            />
+            <button  
+              class="btn-primary" 
+              name="button_open_wizard_tnt" 
+              type="object" 
+              string="Create Tenant" 
+            />
+            <button 
+              class="btn-primary" 
+              name="button_add_build_info" 
+              type="object" 
+              string="Add Building Info" 
+            />
+          </header>
+          <sheet>
+            <group>
+              <group>
+                <field name="bus_ids"/>
+                <field name="name"/>
+                <field name="street"/>
+                <field name="area"/>
+                <field name="building"/>
+                <field name="property_valuation"/>
+                <field name="property_tax"/>
+              </group>
+              <group>
+                <field name="levels"/>
+                <field name="material"/>
+                <field name="shop"/>
+                <field name="types"/>
+                <field name="amenity"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Results">
+                <field name="info_data">
+                  <tree string="Business Lines">
+                    <!-- 
+                      Constant fields for all nodes
+                     -->
+
+                    <field name="types" invisible = "1"/>
+                    <field name="bus_ids"/>
+                    <field name="lat" invisible = "1"/>
+                    <field name="lon" invisible = "1"/>
+                    <field name="name" invisible = "1"/>
+                    <field name="shop" invisible = "1"/>
+                    <field name="amenity" invisible = "1"/>
+
+                    <!-- 
+                      Nodes fields only for Tenants
+                     -->
+
+                    <field name="tenant"/>
+                    <field name="rent" invisible = "1"/>
+
+                    <!-- 
+                      Nodes fields only for Owner
+                     -->
+                    
+                    <field name="owner"/>
+                    <field name="tenants_id" invisible = "1"/>
+
+                    <!-- 
+                      Nodes fields common for Owner and Tenant
+                     -->
+
+                    <field name="citizen" invisible = "1"/>
+                    <field name="vrn" invisible = "1"/>
+                    <field name="assess" invisible = "1"/>
+                    <field name="branch" invisible = "1"/>
+                    <field name="tax" invisible = "1"/>
+                    <field name="tin" invisible = "1"/>
+                    <field name="efd" invisible = "1"/>
+                    <field name="valued" invisible = "1"/>
+
+                    <!-- 
+                      Nodes fields only for Building Information
+                     -->
+
+                    <field name="property_name"/>
+                    <field name="ward" invisible = "1"/>
+                    <field name="sub_ward" invisible = "1"/>
+                    <field name="street" invisible = "1"/>
+                    <field name="plot_no" invisible = "1"/>
+                    <field name="post_code_no" invisible = "1"/>
+                    <field name="user" invisible = "1"/>
+                    <field name="tenure" invisible = "1"/>
+                    <field name="owner" invisible = "1"/>
+                    <field name="address" invisible = "1"/>
+                    <field name="state" invisible = "1"/>
+                    <field name="discription" invisible = "1"/>
+                    <field name="roof" invisible = "1"/>
+                    <field name="ceiling" invisible = "1"/>
+                    <field name="walls" invisible = "1"/>
+                    <field name="windows" invisible = "1"/>
+                    <field name="doors" invisible = "1"/>
+                    <field name="floor" invisible = "1"/>
+                    <field name="room_counts" invisible = "1"/>
+                    <field name="fixture_and_fittng" invisible = "1"/>
+                    <field name="brif_dis" invisible = "1"/>
+                    <field name="main_building" invisible = "1"/>
+                    <field name="out_building" invisible = "1"/>
+                    <field name="site_work" invisible = "1"/>
+                    <field name="services" invisible = "1"/>
+                    <field name="condition" invisible = "1"/>
+                    <field name="depreciation" invisible = "1"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+  <!-- Nodes in Building Info -->
+    <record model="ir.ui.view" id="odoo_osm_sync.info_data">
+      <field name="name">odoo_osm_sync info_data</field>
+      <field name="model">building.read.line</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <!-- 
+              Constant fields for all nodes
+             -->
+
+            <field name="types" invisible = "1"/>
+            <field name="bus_ids" invisible = "1"/>
+            <field name="lat" invisible = "1"/>
+            <field name="lon" invisible = "1"/>
+            <field name="name" invisible = "1"/>
+            <field name="shop" invisible = "1"/>
+            <field name="amenity" invisible = "1"/>
+
+            <!-- 
+              If Owner,Tenant and Building Information is
+              equal to 'Nr' then this group is visible
+              and all other will hide.
+             -->
+            <group 
+              attrs="{
+              'invisible': ['|',
+              ('property_name', '!=', 'Nr'),
+              '|', 
+              ('owner', '!=', 'Nr'),
+              ('tenant', '!=', 'Nr'),
+              ]}">
+
+              <h1>No data is for Showing</h1>
+            </group>
+
+            <!-- 
+              If Building Information is equal to 'Nr'and
+              One of the Owner or Tenant is not then this
+              group is visible and all other will hide.
+             -->
+
+            <group 
+              attrs="{
+              'invisible': ['|',
+              ('property_name', '!=', 'Nr'),
+              '&amp;', 
+                ('owner', '==', 'Nr'),
+                ('tenant', '==', 'Nr')
+              ]}">
+
+              <group >
+                <!-- 
+                  Nodes fields only for Tenants
+                 -->
+
+                <field 
+                  name="tenant" 
+                  attrs="{'invisible': [('owner', '!=', 'Nr')]}"
+                />
+
+                <field 
+                  name="rent"
+                  attrs="{'invisible': [('owner', '!=', 'Nr')]}"
+                  />
+
+                <!-- 
+                  field owner is common for Owner and 
+                  Building Information.But we are only 
+                  place it here.
+                 -->
+                <field 
+                  name="owner" 
+                  attrs="{'invisible': [('tenant', '!=', 'Nr')]}"
+                />
+
+                <!-- 
+                  Nodes fields only for Owner
+                 -->
+
+                <field 
+                  name="tenants_id" 
+                  attrs="{'invisible': [('tenant', '!=', 'Nr')]}"
+                />
+              </group>
+              <!-- 
+                Nodes fields common for Owner and Tenant
+               -->
+              <group>
+                <field name="citizen"/>
+                <field name="vrn"/>
+                <field name="assess"/>
+                <field name="branch"/>
+                <field name="tax"/>
+                <field name="tin"/>
+                <field name="efd"/>
+                <field name="valued"/>
+              </group>
+            </group>
+
+            <!-- 
+              This group is only visible if property name
+              of building is available
+             -->
+
+            <group 
+              attrs="{
+              'invisible': [
+              ('property_name', '==', 'Nr')
+              ]}">
+
+              <!-- 
+                Below varables are for calculating 
+                Property value.
+               -->
+
+              <group>
+                <field name="property_name"/>
+                <field name="total_area"/>
+                <field name="rate_per_meter_square"/>
+                <field name="replacement_cost"/>
+                <field name="depreciation_factor"/>
+                <field name="depreciated_replacement_cost"/>
+                <field name="site_works"/>
+                <field name="rateable_value"/>
+                <field name="say"/>
+              </group>
+
+              <!-- 
+                This is invisible group for future because
+                it might be posible that below variable can be 
+                somehow needed.
+                 -->
+
+              <group invisible = "1">
+                <field name="property_name" invisible = "1"/>
+                <field name="ward" invisible = "1"/>
+                <field name="sub_ward" invisible = "1"/>
+                <field name="street" invisible = "1"/>
+                <field name="plot_no" invisible = "1"/>
+                <field name="post_code_no" invisible = "1"/>
+                <field name="user" invisible = "1"/>
+                <field name="tenure" invisible = "1"/>
+                <field name="address" invisible = "1"/>
+                <field name="state" invisible = "1"/>
+                <field name="discription" invisible = "1"/>
+                <field name="roof" invisible = "1"/>
+                <field name="ceiling" invisible = "1"/>
+                <field name="walls" invisible = "1"/>
+                <field name="windows" invisible = "1"/>
+                <field name="doors" invisible = "1"/>
+                <field name="floor" invisible = "1"/>
+                <field name="room_counts" invisible = "1"/>
+                <field name="fixture_and_fittng" invisible = "1"/>
+                <field name="brif_dis" invisible = "1"/>
+                <field name="main_building" invisible = "1"/>
+                <field name="out_building" invisible = "1"/>
+                <field name="site_work" invisible = "1"/>
+                <field name="services" invisible = "1"/>
+                <field name="condition" invisible = "1"/>
+                <field name="depreciation" invisible = "1"/>
+              </group>
+            </group>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+  <!-- Action -->
+    <record 
+      model="ir.actions.act_window" 
+      id="odoo_osm_sync.action_window_buss">
+
+      <field name="name">Business</field>
+      <field name="res_model">building.read</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  <!-- Menuitem -->
+    <menuitem 
+      name="Business Data" 
+      id="odoo_osm_sync.buss" 
+      parent="odoo_osm_sync.menu_1"
+      sequence='1'
+      action="odoo_osm_sync.action_window_buss"
+    />
+
+</odoo>

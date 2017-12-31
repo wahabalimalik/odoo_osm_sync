@@ -202,7 +202,6 @@ var SearchResult = Widget.extend({
 
     	$('div.osm-result-chart > table >tbody > tr').remove();
 	    for (var i = 0; i < data.elements.length; i++) {
-	    // for (var i = 0; i < 100; i++) {
 	    	if (data.elements[i].hasOwnProperty('tags')){
 				if (this.has_data(i,'addr:street')) {var street=this.is_data(i,'addr:street')}else{var street='N/A';}
 				if (this.has_data(i,'name')) {var name=this.is_data(i,'name')}else{var name = 'N/A';}
